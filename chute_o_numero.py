@@ -26,25 +26,28 @@ class ChuteONumero:
             while True:
                 # receber os valores
                 self.evento, self.valores = self.janela.Read()
+                if self.evento == sg.WIN_CLOSED:
+                    break
                 # fazer alguma coisa com esses valores
                 if self.evento == 'Chutar!':
                     self.valor_do_chute = self.valores['ValorChute']
                     while self.tentar_novamente == True:
                         if int(self.valor_do_chute) > self.valor_aleatorio:
                             print('Chute um valor mais baixo!')
-                            self.PedirValorAleatorio()
+                            break
                         elif int(self.valor_do_chute) < self.valor_aleatorio:
                             print('Chute um valor mais alto!')
-                            self.PedirValorAleatorio()
+                            break
                         if int(self.valor_do_chute) == self.valor_aleatorio:
                             self.tentar_novamente = False
                             print('PARABÉNS, VOCÊ ACERTOU!!')
+                            break
         except:
             print('Favor digitar apenas números')
-            self.Iniciar()            
-
-    def PedirValorAleatorio(self):
-        self.valor_do_chute = input('Chute um número:')
+            self.Iniciar()      
+            
+        finally:
+            self.janela.Close()      
     
     def GerarNumeroAleatorio(self):
         self.valor_aleatorio = random.randint(self.valor_minimo,self.valor_maximo)
